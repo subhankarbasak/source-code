@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bissow - Classified & Ecommerce Platform</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1e3a8a; /* Deep Blue */
+      --secondary: #f59e0b; /* Vibrant Gold */
+      --light: #f8fafc; /* Off-White */
+      --dark: #111827; /* Dark Slate */
+      --accent: #e5e7eb; /* Light Gray */
+      --text: #111827; /* Primary Text */
+      --background: #ffffff; /* White Background */
+      --card-bg: #ffffff; /* Card Background */
+      --header-bg: #ffffff; /* Header Background */
+      --carousel-caption-bg: rgba(0,0,0,0.7); /* Dark Caption Overlay */
+      --text-muted: #6b7280; /* Muted Text */
+      --btn-text: #111827; /* Button Text */
+      --chat-user-bg: #3b82f6; /* User Chat Background */
+      --chat-admin-bg: #e5e7eb; /* Admin Chat Background */
+    }
+    [data-theme="dark"] {
+      --primary: #4f46e5; /* Indigo */
+      --secondary: #d97706; /* Muted Gold */
+      --light: #1e293b; /* Dark Slate */
+      --dark: #9ca3af; /* Light Gray */
+      --accent: #1e293b; /* Darker Accent */
+      --text: #f3f4f6; /* High-Contrast Text */
+      --background: #0f172a; /* Soft Black */
+      --card-bg: #1e293b; /* Dark Card Background */
+      --header-bg: #1e293b; /* Dark Header Background */
+      --carousel-caption-bg: rgba(255,255,255,0.2); /* Light Caption Overlay */
+      --text-muted: #9ca3af; /* Muted Text */
+      --btn-text: #111827; /* Button Text */
+      --chat-user-bg: #60a5fa; /* User Chat Background */
+      --chat-admin-bg: #2d3748; /* Admin Chat Background */
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      color: var(--text);
+      background-color: var(--background);
+      margin: 0;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      color: var(--primary);
+    }
+    .sticky-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: var(--header-bg);
+      padding: 0.4rem 0;
+      transition: background-color 0.2s ease;
+    }
+    .nav-link {
+      color: var(--primary) !important;
+      font-weight: 500;
+      font-size: clamp(0.85rem, 2.5vw, 0.9rem);
+      padding: 0.4rem 0.6rem;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+    .nav-link:hover, .nav-link:focus {
+      color: var(--secondary) !important;
+      transform: scale(1.02);
+    }
+    .dropdown-menu {
+      background: var(--card-bg);
+      border: none;
+      border-radius: 4px;
+      padding: 0.3rem 0;
+      min-width: 180px;
+      transition: background-color 0.2s ease;
+    }
+    .dropdown-item {
+      color: var(--text);
+      font-size: clamp(0.8rem, 2.5vw, 0.85rem);
+      padding: 0.3rem 0.9rem;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+    .dropdown-item:hover, .dropdown-item:focus {
+      background: var(--accent);
+      color: var(--primary);
+    }
+    .dropdown-submenu {
+      position: relative;
+    }
+    .dropdown-submenu .dropdown-menu {
+      top: 0;
+      left: 100%;
+      margin-top: -0.3rem;
+      display: none;
+    }
+    .dropdown-submenu:hover > .dropdown-menu {
+      display: block;
+    }
+    .dropdown-toggle::after {
+      margin-left: 0.4rem;
+      transition: transform 0.2s ease;
+    }
+    .dropdown-toggle.show::after {
+      transform: rotate(180deg);
+    }
+    .sidebar {
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 80%;
+      max-width: 250px;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      background: var(--header-bg);
+      z-index: 1100;
+      padding: 0.8rem;
+    }
+    .sidebar.show {
+      transform: translateX(0);
+    }
+    .sidebar .nav-link, .sidebar .accordion-button {
+      color: var(--primary) !important;
+      font-size: clamp(0.85rem, 3vw, 0.9rem);
+      margin-bottom: 0.5rem;
+      background: none !important;
+      padding: 0.4rem 0;
+    }
+    .sidebar .accordion-button::after {
+      font-family: 'Font Awesome 5 Free';
+      content: '\f078';
+      font-weight: 900;
+      color: var(--primary);
+      transition: transform 0.2s ease;
+    }
+    .sidebar .accordion-button:not(.collapsed)::after {
+      transform: rotate(180deg);
+    }
+    .sidebar .dropdown-item {
+      font-size: clamp(0.8rem, 2.5vw, 0.85rem);
+      padding-left: 1.2rem;
+    }
+    .sidebar .accordion-body .accordion-body .dropdown-item {
+      padding-left: 2rem;
+    }
+    .sidebar .accordion-body .accordion-body .accordion-body .dropdown-item {
+      padding-left: 2.8rem;
+    }
+    .sidebar-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.4);
+      z-index: 1099;
+      display: none;
+      transition: opacity 0.3s ease;
+    }
+    .sidebar-backdrop.show {
+      display: block;
+      opacity: 1;
+    }
+    .carousel-item img {
+      height: clamp(180px, 50vw, 400px);
+      object-fit: cover;
+      filter: brightness(70%);
+      width: 100%;
+    }
+    .carousel-caption {
+      padding: clamp(8px, 3vw, 10px);
+      border-radius: 4px;
+      background: var(--carousel-caption-bg);
+      color: var(--text);
+      transition: background-color 0.2s ease;
+    }
+    .news-ticker {
+      background: var(--card-bg);
+      padding: 0.4rem 0;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      font-size: clamp(0.8rem, 2.5vw, 0.85rem);
+      color: var(--text);
+      position: relative;
+      transition: background-color 0.2s ease;
+    }
+    .news-ticker::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      width: 40px;
+      height: 100%;
+      background: linear-gradient(to right, transparent, var(--card-bg));
+    }
+    .news-ticker-label {
+      flex: 0 0 auto;
+      font-weight: 600;
+      color: var(--primary);
+      padding: 0 0.6rem 0 0.8rem;
+    }
+    .news-ticker-wrapper {
+      flex: 1 1 auto;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .news-ticker-content {
+      display: inline-block;
+      animation: ticker 18s linear infinite;
+    }
+    .news-ticker-content:hover {
+      animation-play-state: paused;
+    }
+    .news-ticker-item {
+      display: inline-flex;
+      align-items: center;
+      margin-right: 1.2rem;
+    }
+    .news-ticker-item img {
+      width: 28px;
+      height: 28px;
+      margin-right: 0.4rem;
+      border-radius: 4px;
+    }
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+    .section-title {
+      font-size: clamp(1.3rem, 4vw, 1.6rem);
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    .card {
+      border: none;
+      border-radius: 4px;
+      background: var(--card-bg);
+      padding: 0.8rem;
+      transition: background-color 0.2s ease;
+    }
+    .btn-primary {
+      background: var(--secondary);
+      border: none;
+      color: var(--btn-text);
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      padding: clamp(5px, 2vw, 6px) clamp(8px, 3vw, 10px);
+      border-radius: 4px;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .btn-primary:hover {
+      background: #b45309;
+      transform: scale(1.02);
+    }
+    .btn-light {
+      background: var(--light);
+      border: 1px solid var(--primary);
+      color: var(--primary);
+      font-weight: 500;
+      padding: clamp(5px, 2vw, 6px) clamp(8px, 3vw, 10px);
+      border-radius: 4px;
+      transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    }
+    .btn-light:hover {
+      background: var(--primary);
+      color: var(--light);
+      transform: scale(1.02);
+    }
+    .theme-toggle {
+      background: none;
+      border: none;
+      color: var(--primary);
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+    .theme-toggle:hover {
+      color: var(--secondary);
+      transform: scale(1.1);
+    }
+    .chatbot {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      z-index: 1000;
+    }
+    .chatbot-window {
+      display: none;
+      width: clamp(250px, 90vw, 280px);
+      max-height: clamp(320px, 80vh, 380px);
+      background: var(--card-bg);
+      border-radius: 6px;
+      overflow: hidden;
+      transition: background-color 0.2s ease;
+    }
+    .chatbot-window.show {
+      display: block;
+    }
+    .chatbot-header {
+      background: var(--primary);
+      color: var(--light);
+      padding: 6px 10px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .chatbot-body {
+      height: clamp(160px, 50vh, 220px);
+      overflow-y: auto;
+      padding: 8px;
+      background: var(--accent);
+    }
+    .chatbot-message {
+      padding: 6px 10px;
+      border-radius: 8px;
+      margin-bottom: 6px;
+      font-size: clamp(0.75rem, 2.5vw, 0.8rem);
+      max-width: 80%;
+      position: relative;
+      animation: fadeIn 0.3s ease;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+    .chatbot-message.user {
+      background: var(--chat-user-bg);
+      color: var(--btn-text);
+      margin-left: auto;
+      text-align: right;
+      border-radius: 8px 8px 0 8px;
+    }
+    .chatbot-message.admin {
+      background: var(--chat-admin-bg);
+      color: var(--text);
+      margin-right: auto;
+      text-align: left;
+      border-radius: 8px 8px 8px 0;
+    }
+    .chatbot-message i {
+      font-size: 0.9rem;
+      margin-right: 6px;
+      color: var(--primary);
+      transition: transform 0.2s ease;
+    }
+    .chatbot-message i:hover {
+      transform: scale(1.1);
+    }
+    .chatbot-message .timestamp {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+      display: block;
+    }
+    .chatbot-input-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 8px;
+    }
+    .chatbot-input-group .form-control {
+      border-radius: 4px;
+      border: 1px solid var(--accent);
+      padding: 5px 8px;
+      font-size: clamp(0.75rem, 2.5vw, 0.8rem);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .chatbot-input-group .form-control:focus {
+      border-color: var(--secondary);
+      box-shadow: 0 0 4px rgba(245, 158, 11, 0.3);
+    }
+    .chatbot-input-group .btn-primary {
+      border-radius: 4px;
+      padding: 5px 8px;
+    }
+    .typing-indicator {
+      display: none;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      padding: 5px;
+    }
+    .typing-indicator.active {
+      display: block;
+    }
+    .typing-indicator::before {
+      content: '• • •';
+      animation: typing 1s infinite;
+    }
+    @keyframes typing {
+      0% { opacity: 0.4; }
+      50% { opacity: 1; }
+      100% { opacity: 0.4; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    footer {
+      background: var(--primary);
+      color: var(--light);
+      padding: clamp(1rem, 5vw, 1.2rem) 0;
+    }
+    footer a {
+      color: var(--light);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    footer a:hover {
+      color: var(--secondary);
+    }
+    .social-icon {
+      font-size: clamp(0.8rem, 3vw, 0.85rem);
+      margin: 0 5px;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+    .social-icon:hover {
+      color: var(--secondary);
+      transform: scale(1.1);
+    }
+    .form-control {
+      border-radius: 4px;
+      border: 1px solid var(--accent);
+      padding: clamp(5px, 2vw, 6px);
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: clamp(0.75rem, 2.5vw, 0.8rem);
+      background: var(--card-bg);
+      color: var(--text);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .form-control:focus {
+      border-color: var(--secondary);
+      box-shadow: 0 0 4px rgba(245, 158, 11, 0.3);
+    }
+    .form-label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      color: var(--primary);
+      font-size: clamp(0.75rem, 2.5vw, 0.8rem);
+    }
+    .img-shadow {
+      border-radius: 4px;
+      width: 100%;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .img-shadow:hover {
+      transform: scale(1.02);
+    }
+    .modal-content {
+      background: var(--card-bg);
+      border: none;
+      border-radius: 4px;
+    }
+    .modal-carousel img {
+      height: clamp(200px, 80vh, 600px);
+      object-fit: contain;
+      width: 100%;
+    }
+    .section {
+      padding: clamp(1.2rem, 5vw, 1.5rem) 0;
+    }
+    [role="button"], button, a[role="button"] {
+      outline: none;
+    }
+    a:focus, button:focus, input:focus, textarea:focus {
+      outline: 2px solid var(--secondary);
+      outline-offset: 2px;
+    }
+    /* Mobile-specific adjustments */
+    @media (max-width: 767px) {
+      .carousel-caption h2 {
+        font-size: clamp(0.95rem, 3vw, 1.1rem);
+      }
+      .carousel-caption p {
+        font-size: clamp(0.65rem, 2vw, 0.7rem);
+      }
+      .section-title {
+        font-size: clamp(1.1rem, 3vw, 1.2rem);
+      }
+      .card {
+        padding: 0.6rem;
+      }
+      .btn-primary, .btn-light {
+        font-size: clamp(0.7rem, 2vw, 0.75rem);
+      }
+      .container {
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+      .row {
+        margin-left: -5px;
+        margin-right: -5px;
+      }
+      .col-md-4, .col-12 {
+        padding-left: 5px;
+        padding-right: 5px;
+      }
+      .carousel-control-prev, .carousel-control-next {
+        width: 8%;
+      }
+      .dropdown-menu {
+        min-width: 130px;
+      }
+      .dropdown-submenu .dropdown-menu {
+        left: 0;
+        margin-top: 0.3rem;
+      }
+      .news-ticker-label {
+        padding: 0 0.5rem 0 0.6rem;
+      }
+      .news-ticker-item img {
+        width: 24px;
+        height: 24px;
+      }
+      footer .col-md-4, footer .col-md-2, footer .col-md-3 {
+        text-align: center;
+      }
+      footer .d-flex {
+        justify-content: center;
+      }
+    }
+    @media (max-width: 576px) {
+      .chatbot {
+        bottom: 8px;
+        right: 8px;
+      }
+      .chatbot-window {
+        width: 90vw;
+        max-height: 60vh;
+      }
+      .modal-carousel img {
+        height: clamp(150px, 70vh, 400px);
+      }
+      .news-ticker {
+        font-size: clamp(0.7rem, 2vw, 0.75rem);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="sticky-header" role="banner">
+    <div class="container">
+      <div class="d-flex align-items-center justify-content-between py-1">
+        <div class="d-flex align-items-center">
+          <img src="https://placehold.co/32x32?text=B" alt="Bissow Logo" class="me-2 rounded-circle" loading="lazy">
+          <h1 class="h5 mb-0 fw-bold">Bissow</h1>
+        </div>
+        <nav class="d-none d-md-flex align-items-center" aria-label="Main navigation">
+          <div class="dropdown">
+            <a href="#features" class="nav-link dropdown-toggle" id="featuresDropdown" data-bs-toggle="dropdown" aria-expanded="false">Features</a>
+            <ul class="dropdown-menu" aria-labelledby="featuresDropdown">
+              <li><a class="dropdown-item" href="#features">Classified Listings</a></li>
+              <li><a class="dropdown-item" href="#features">Ecommerce Integration</a></li>
+              <li class="dropdown-submenu">
+                <a class="dropdown-item dropdown-toggle" href="#">Platform Tools</a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Analytics</a></li>
+                  <li class="dropdown-submenu">
+                    <a class="dropdown-item dropdown-toggle" href="#">Secure Payments</a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#">Payment Gateway</a></li>
+                      <li><a class="dropdown-item" href="#">Fraud Detection</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <a href="#subscriptions" class="nav-link">Subscriptions</a>
+          <a href="#pricing" class="nav-link">Pricing</a>
+          <a href="#about" class="nav-link">About</a>
+          <a href="#contact" class="nav-link">Contact</a>
+          <button class="theme-toggle ms-1" id="themeToggle" aria-label="Toggle theme">
+            <i class="fas fa-moon"></i>
+          </button>
+        </nav>
+        <div class="d-md-none d-flex align-items-center">
+          <button class="theme-toggle me-2" id="mobileThemeToggle" aria-label="Toggle theme">
+            <i class="fas fa-moon"></i>
+          </button>
+          <button class="btn text-primary" id="sidebarToggle" aria-label="Toggle menu">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Sidebar -->
+  <div class="sidebar" id="sidebar" aria-hidden="true">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <h2 class="h6 fw-bold">Bissow</h2>
+      <div>
+        <button class="theme-toggle me-2" id="sidebarThemeToggle" aria-label="Toggle theme">
+          <i class="fas fa-moon"></i>
+        </button>
+        <button class="btn text-primary" id="closeSidebar" aria-label="Close menu">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+    <nav class="d-flex flex-column" aria-label="Mobile navigation">
+      <div class="accordion" id="sidebarAccordion">
+        <div class="accordion-item border-0">
+          <h2 class="accordion-header">
+            <button class="nav-link accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#featuresSubmenu" aria-expanded="false" aria-controls="featuresSubmenu">
+              Features
+            </button>
+          </h2>
+          <div id="featuresSubmenu" class="accordion-collapse collapse" data-bs-parent="#sidebarAccordion">
+            <div class="accordion-body p-0">
+              <a href="#features" class="dropdown-item">Classified Listings</a>
+              <a href="#features" class="dropdown-item">Ecommerce Integration</a>
+              <div class="accordion" id="platformToolsAccordion">
+                <div class="accordion-item border-0">
+                  <h3 class="accordion-header">
+                    <button class="dropdown-item accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#platformToolsSubmenu" aria-expanded="false" aria-controls="platformToolsSubmenu">
+                      Platform Tools
+                    </button>
+                  </h3>
+                  <div id="platformToolsSubmenu" class="accordion-collapse collapse" data-bs-parent="#platformToolsAccordion">
+                    <div class="accordion-body p-0">
+                      <a href="#" class="dropdown-item">Analytics</a>
+                      <div class="accordion" id="securePaymentsAccordion">
+                        <div class="accordion-item border-0">
+                          <h4 class="accordion-header">
+                            <button class="dropdown-item accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#securePaymentsSubmenu" aria-expanded="false" aria-controls="securePaymentsSubmenu">
+                              Secure Payments
+                            </button>
+                          </h4>
+                          <div id="securePaymentsSubmenu" class="accordion-collapse collapse" data-bs-parent="#securePaymentsAccordion">
+                            <div class="accordion-body p-0">
+                              <a href="#" class="dropdown-item">Payment Gateway</a>
+                              <a href="#" class="dropdown-item">Fraud Detection</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a href="#subscriptions" class="nav-link">Subscriptions</a>
+      <a href="#pricing" class="nav-link">Pricing</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </nav>
+  </div>
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <!-- Slider -->
+  <div id="carousel" class="carousel slide" data-bs-ride="carousel" data-aos="fade">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="https://placehold.co/1200x500?text=Discover+Bissow" class="d-block w-100" alt="Discover Bissow" loading="lazy">
+        <div class="carousel-caption">
+          <h2 class="h4 fw-bold">Discover Bissow</h2>
+          <p>Seamless classifieds and ecommerce platform.</p>
+          <a href="#download" class="btn btn-primary mt-1">Get Started</a>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="https://placehold.co/1200x500?text=Shop+Sell" class="d-block w-100" alt="Shop and Sell" loading="lazy">
+        <div class="carousel-caption">
+          <h2 class="h4 fw-bold">Shop & Sell</h2>
+          <p>Secure and effortless transactions.</p>
+          <a href="#download" class="btn btn-primary mt-1">Download Now</a>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="https://placehold.co/1200x500?text=Join+Community" class="d-block w-100" alt="Join Community" loading="lazy">
+        <div class="carousel-caption">
+          <h2 class="h4 fw-bold">Join Our Community</h2>
+          <p>Connect with millions worldwide.</p>
+          <a href="#download" class="btn btn-primary mt-1">Join Today</a>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev" aria-label="Previous slide">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next" aria-label="Next slide">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+  <!-- News Ticker -->
+  <div class="news-ticker" data-aos="fade-up">
+    <div class="container d-flex align-items-center">
+      <span class="news-ticker-label">Latest News:</span>
+      <div class="news-ticker-wrapper">
+        <div class="news-ticker-content">
+          <div class="news-ticker-item">
+            <img src="https://placehold.co/28x28?text=N1" alt="News 1" loading="lazy">
+            <span>Bissow launches new analytics dashboard!</span>
+          </div>
+          <div class="news-ticker-item">
+            <img src="https://placehold.co/28x28?text=N2" alt="News 2" loading="lazy">
+            <span>Secure payments upgraded for speed.</span>
+          </div>
+          <div class="news-ticker-item">
+            <img src="https://placehold.co/28x28?text=N3" alt="News 3" loading="lazy">
+            <span>Join our community event this weekend!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Features -->
+  <section id="features" class="section" data-aos="fade-up">
+    <div class="container">
+      <h2 class="section-title">Why Bissow?</h2>
+      <div class="row">
+        <div class="col-md-4 col-12 mb-3">
+          <div class="card text-center">
+            <i class="fas fa-list-ul fa-lg mb-2 text-primary"></i>
+            <h3 class="card-title h6">Classified Listings</h3>
+            <p class="card-text">Create and manage ads effortlessly.</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-12 mb-3">
+          <div class="card text-center">
+            <i class="fas fa-shopping-cart fa-lg mb-2 text-primary"></i>
+            <h3 class="card-title h6">Ecommerce</h3>
+            <p class="card-text">Secure payments for seamless shopping.</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-12 mb-3">
+          <div class="card text-center">
+            <i class="fas fa-mobile-alt fa-lg mb-2 text-primary"></i>
+            <h3 class="card-title h6">Intuitive Design</h3>
+            <p class="card-text">User-friendly navigation for all.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screenshots -->
+  <section id="screenshots" class="section bg-light" data-aos="fade-up">
+    <div class="container">
+      <h2 class="section-title">App Screenshots</h2>
+      <div class="row">
+        <div class="col-md-4 col-12 mb-3">
+          <img src="https://placehold.co/300x600?text=Screenshot+1" class="img-fluid img-shadow" alt="Screenshot 1" loading="lazy" data-bs-toggle="modal" data-bs-target="#screenshotModal" data-index="0">
+        </div>
+        <div class="col-md-4 col-12 mb-3">
+          <img src="https://placehold.co/300x600?text=Screenshot+2" class="img-fluid img-shadow" alt="Screenshot 2" loading="lazy" data-bs-toggle="modal" data-bs-target="#screenshotModal" data-index="1">
+        </div>
+        <div class="col-md-4 col-12 mb-3">
+          <img src="https://placehold.co/300x600?text=Screenshot+3" class="img-fluid img-shadow" alt="Screenshot 3" loading="lazy" data-bs-toggle="modal" data-bs-target="#screenshotModal" data-index="2">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screenshot Modal -->
+  <div class="modal fade" id="screenshotModal" tabindex="-1" aria-labelledby="screenshotModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="screenshotModalLabel">App Screenshots</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="screenshotCarousel" class="carousel slide">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="https://placehold.co/300x600?text=Screenshot+1" class="d-block w-100 modal-carousel" alt="Screenshot 1" loading="lazy">
+              </div>
+              <div class="carousel-item">
+                <img src="https://placehold.co/300x600?text=Screenshot+2" class="d-block w-100 modal-carousel" alt="Screenshot 2" loading="lazy">
+              </div>
+              <div class="carousel-item">
+                <img src="https://placehold.co/300x600?text=Screenshot+3" class="d-block w-100 modal-carousel" alt="Screenshot 3" loading="lazy">
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#screenshotCarousel" data-bs-slide="prev" aria-label="Previous screenshot">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#screenshotCarousel" data-bs-slide="next" aria-label="Next screenshot">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Testimonials -->
+  <section id="testimonials" class="section" data-aos="fade-up">
+    <div class="container">
+      <h2 class="section-title">Testimonials</h2>
+      <div class="row">
+        <div class="col-md-4 col-12 mb-3">
+          <div class="card">
+            <p class="card-text">"Bissow simplifies online selling."</p>
+            <p class="card-title fw-bold mt-1">Jane Doe</p>
+            <small class="text-muted">Entrepreneur</small>
+          </div>
+        </div>
+        <div class="col-md-4 col-12 mb-3">
+          <div class="card">
+            <p class="card-text">"Clean and intuitive shopping."</p>
+            <p class="card-title fw-bold mt-1">John Smith</p>
+            <small class="text-muted">Shopper</small>
+          </div>
+        </div>
+        <div class="col-md-4 col-12 mb-3">
+          <div class="card">
+            <p class="card-text">"Secure and reliable platform."</p>
+            <p class="card-title fw-bold mt-1">Emily Brown</p>
+            <small class="text-muted">Business Owner</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Download Stats -->
+  <section id="stats" class="section bg-light" data-aos="fade-up">
+    <div class="container text-center">
+      <h2 class="section-title">Our Impact</h2>
+      <div class="row">
+        <div class="col-md-4 col-12 mb-3">
+          <p class="h4 fw-bold text-primary">1M+</p>
+          <p>Downloads</p>
+        </div>
+        <div class="col-md-4 col-12 mb-3">
+          <p class="h4 fw-bold text-primary">500K+</p>
+          <p>Active Users</p>
+        </div>
+        <div class="col-md-4 col-12 mb-3">
+          <p class="h4 fw-bold text-primary">10K+</p>
+          <p>Daily Transactions</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Subscriptions -->
+  <section id="subscriptions" class="section" data-aos="fade-up">
+    <div class="container">
+      <h2 class="section-title">Subscriptions</h2>
+      <div class="row">
+        <div class="col-md-4 col-12 mb-3">
+          <div class="card text-center">
+            <h3 class="card-title h6">Basic Plan</h3>
+            <p class="card-text">Core features for casual users.</p>
+            <a href="#" class="btn btn-primary mt-1">Get Started</a>
+          </div>
+        </div>
+        <div class="col-md-4 col-12 mb-3">
+          <div class="card text-center">
+            <h3 class="card-title h6">Pro Plan</h3>
+            <p class="card-text">Unlimited listings and support.</p>
+            <a href="#" class="btn btn-primary mt-1">Choose Pro</a>
+          </div>
+        </div>
+        <div class="col-md-4 col-12 mb-3">
+          <div class="card text-center">
+            <h3 class="card-title h6">Enterprise Plan</h3>
+            <p class="card-text">Custom solutions for businesses.</p>
+            <a href="#contact" class="btn btn-primary mt-1">Contact Us</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing" class="section bg-light" data-aos="fade-up">
+    <div class="container">
+      <h2 class="section-title">Pricing</h2>
+      <div class="row">
+        <div class="col-md-4 col-12 mb-3">
+          <div class="card text-center">
+            <h3 class="card-title h6">Basic</h3>
+            <p class="card-text h5 fw-bold">Free</p>
+            <p class="card-text">Core features for casual users.</p>
+            <a href="#" class="btn btn-primary mt-1">Get Started</a>
+          </div>
+        </div>
+        <div class="col-md-4 col-12 mb-3">
+          <div class="card text-center">
+            <h3 class="card-title h6">Pro</h3>
+            <p class="card-text h5 fw-bold">$9.99/month</p>
+            <p class="card-text">Advanced features for power users.</p>
+            <a href="#" class="btn btn-primary mt-1">Choose Pro</a>
+          </div>
+        </div>
+        <div class="col-md-4 col-12 mb-3">
+          <div class="card text-center">
+            <h3 class="card-title h6">Enterprise</h3>
+            <p class="card-text h5 fw-bold">Contact Us</p>
+            <p class="card-text">Custom pricing for businesses.</p>
+            <a href="#contact" class="btn btn-primary mt-1">Contact Us</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="section" data-aos="fade-up">
+    <div class="container text-center">
+      <h2 class="section-title">About Bissow</h2>
+      <p class="mx-auto" style="max-width: clamp(400px, 80vw, 500px);">
+        Bissow is a platform for classifieds and ecommerce, built for simplicity and security.
+      </p>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="section bg-light" data-aos="fade-up">
+    <div class="container">
+      <h2 class="section-title">Get in Touch</h2>
+      <div class="row justify-content-center">
+        <div class="col-md-6 col-12">
+          <div class="card">
+            <div class="mb-2">
+              <label for="name" class="form-label">Name</label>
+              <input type="text" class="form-control" id="name" placeholder="Your name" aria-label="Name">
+            </div>
+            <div class="mb-2">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" id="email" placeholder="Your email" aria-label="Email">
+            </div>
+            <div class="mb-2">
+              <label for="message" class="form-label">Message</label>
+              <textarea class="form-control" id="message" rows="3" placeholder="Your message" aria-label="Message"></textarea>
+            </div>
+            <button class="btn btn-primary w-100" aria-label="Send message">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQs -->
+  <section id="faqs" class="section" data-aos="fade-up">
+    <div class="container">
+      <h2 class="section-title">FAQs</h2>
+      <div class="accordion" id="faqAccordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="true" aria-controls="faq1">
+              What is Bissow?
+            </button>
+          </h2>
+          <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Bissow is a platform for classifieds and ecommerce, designed for seamless transactions.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2">
+              How do I list an item?
+            </button>
+          </h2>
+          <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Sign up and follow the simple steps in the listing section.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3">
+              Is Bissow secure?
+            </button>
+          </h2>
+          <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Yes, we use advanced encryption to protect your data.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- App Download -->
+  <section id="download" class="section bg-primary text-white text-center" data-aos="fade-up">
+    <div class="container">
+      <h2 class="section-title text-white">Download Bissow</h2>
+      <div class="d-flex justify-content-center gap-2 flex-wrap">
+        <a href="#" class="btn btn-light" aria-label="Download on the App Store">
+          <i class="fab fa-apple me-1"></i> App Store
+        </a>
+        <a href="#" class="btn btn-light" aria-label="Get it on Google Play">
+          <i class="fab fa-google-play me-1"></i> Google Play
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chatbot -->
+  <div class="chatbot" data-aos="fade-up">
+    <button class="btn btn-primary rounded-circle p-2" id="chatbotToggle" aria-label="Toggle chatbot">
+      <i class="fas fa-comment-dots"></i>
+    </button>
+    <div class="chatbot-window" id="chatbotWindow" aria-hidden="true">
+      <div class="chatbot-header">
+        <h3 class="h6 mb-0">Bissow Support</h3>
+        <button class="btn text-white" id="chatbotClose" aria-label="Close chatbot">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="chatbot-body" id="chatbotMessages">
+        <div class="chatbot-message admin">
+          <i class="fas fa-headset"></i>How can we help you?
+          <span class="timestamp">Just now</span>
+        </div>
+      </div>
+      <div class="chatbot-input-group">
+        <input type="text" class="form-control" id="chatbotInput" placeholder="Type a message..." aria-label="Chatbot input">
+        <button class="btn btn-primary" id="chatbotSend" aria-label="Send message"><i class="fas fa-paper-plane"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer aria-label="Footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 col-12 mb-2">
+          <h3 class="h6 fw-bold">Bissow</h3>
+          <p>Seamless classifieds and ecommerce platform.</p>
+        </div>
+        <div class="col-md-2 col-12 mb-2">
+          <h3 class="h6 fw-bold">Links</h3>
+          <ul class="list-unstyled">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#subscriptions">Subscriptions</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3 col-12 mb-2">
+          <h3 class="h6 fw-bold">Follow Us</h3>
+          <div class="d-flex gap-2">
+            <a href="#" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-icon" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+        <div class="col-md-3 col-12 mb-2">
+          <h3 class="h6 fw-bold">Download</h3>
+          <div class="d-flex gap-2">
+            <a href="#" class="btn btn-light btn-sm" aria-label="Download on the App Store">App Store</a>
+            <a href="#" class="btn btn-light btn-sm" aria-label="Get it on Google Play">Google Play</a>
+          </div>
+        </div>
+      </div>
+      <p class="text-center mt-2">&copy; 2025 Bissow. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    // Theme Toggle Functionality
+    const toggleTheme = () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', currentTheme);
+      localStorage.setItem('theme', currentTheme);
+      updateThemeIcon();
+    };
+
+    const updateThemeIcon = () => {
+      const theme = document.documentElement.getAttribute('data-theme') || 'light';
+      document.querySelectorAll('.theme-toggle i').forEach(icon => {
+        icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+      });
+    };
+
+    // Initialize theme
+    const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateThemeIcon();
+
+    // Theme toggle event delegation
+    document.addEventListener('click', e => {
+      if (e.target.closest('#themeToggle, #mobileThemeToggle, #sidebarThemeToggle')) {
+        toggleTheme();
+      }
+    });
+
+    // AOS Initialization
+    AOS.init({
+      duration: 300,
+      once: true,
+      easing: 'ease-out',
+      disable: window.innerWidth < 576
+    });
+
+    // Sidebar Toggle
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const closeSidebar = document.getElementById('closeSidebar');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+
+    const toggleSidebar = () => {
+      const isOpen = sidebar.classList.toggle('show');
+      sidebarBackdrop.classList.toggle('show', isOpen);
+      sidebar.setAttribute('aria-hidden', !isOpen);
+    };
+
+    sidebarToggle.addEventListener('click', toggleSidebar);
+    closeSidebar.addEventListener('click', toggleSidebar);
+    sidebarBackdrop.addEventListener('click', toggleSidebar);
+
+    sidebar.addEventListener('click', e => {
+      if (e.target.closest('a:not(.accordion-button)')) {
+        toggleSidebar();
+      }
+    });
+
+    // Screenshot Modal
+    document.addEventListener('click', e => {
+      const img = e.target.closest('.img-shadow[data-bs-toggle="modal"]');
+      if (img) {
+        const index = img.getAttribute('data-index');
+        const carousel = document.getElementById('screenshotCarousel');
+        const items = carousel.querySelectorAll('.carousel-item');
+        items.forEach(item => item.classList.remove('active'));
+        items[index].classList.add('active');
+      }
+    });
+
+    // Screenshot Modal Keyboard Navigation
+    document.getElementById('screenshotModal').addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft') {
+        document.querySelector('#screenshotCarousel .carousel-control-prev').click();
+      } else if (e.key === 'ArrowRight') {
+        document.querySelector('#screenshotCarousel .carousel-control-next').click();
+      }
+    });
+
+    // Chatbot Functionality
+    const chatbotToggle = document.getElementById('chatbotToggle');
+    const chatbotClose = document.getElementById('chatbotClose');
+    const chatbotWindow = document.getElementById('chatbotWindow');
+    const chatbotSend = document.getElementById('chatbotSend');
+    const chatbotInput = document.getElementById('chatbotInput');
+    const chatbotMessages = document.getElementById('chatbotMessages');
+
+    // Load chat history
+    const loadChatHistory = () => {
+      const history = JSON.parse(localStorage.getItem('chatHistory') || '[]');
+      history.forEach(msg => {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `chatbot-message ${msg.type}`;
+        messageDiv.innerHTML = `<i class="fas fa-${msg.type === 'user' ? 'user-circle' : 'headset'}"></i>${msg.text}<span class="timestamp">${msg.timestamp}</span>`;
+        chatbotMessages.appendChild(messageDiv);
+      });
+      chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    };
+
+    const saveChatMessage = (text, type) => {
+      const history = JSON.parse(localStorage.getItem('chatHistory') || '[]');
+      const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      history.push({ text, type, timestamp });
+      localStorage.setItem('chatHistory', JSON.stringify(history.slice(-50))); // Limit to 50 messages
+    };
+
+    chatbotToggle.addEventListener('click', () => {
+      const isOpen = chatbotWindow.classList.toggle('show');
+      chatbotWindow.setAttribute('aria-hidden', !isOpen);
+      if (isOpen && !chatbotMessages.children.length) {
+        loadChatHistory();
+      }
+    });
+
+    chatbotClose.addEventListener('click', () => {
+      chatbotWindow.classList.remove('show');
+      chatbotWindow.setAttribute('aria-hidden', 'true');
+    });
+
+    chatbotSend.addEventListener('click', () => {
+      const message = chatbotInput.value.trim();
+      if (message) {
+        const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const userMessage = document.createElement('div');
+        userMessage.className = 'chatbot-message user';
+        userMessage.innerHTML = `<i class="fas fa-user-circle"></i>${message}<span class="timestamp">${timestamp}</span>`;
+        chatbotMessages.appendChild(userMessage);
+        saveChatMessage(message, 'user');
+        chatbotInput.value = '';
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+
+        const typingIndicator = document.createElement('div');
+        typingIndicator.className = 'typing-indicator active';
+        typingIndicator.textContent = 'Typing...';
+        chatbotMessages.appendChild(typingIndicator);
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+
+        setTimeout(() => {
+          typingIndicator.remove();
+          const botMessage = document.createElement('div');
+          botMessage.className = 'chatbot-message admin';
+          botMessage.innerHTML = `<i class="fas fa-headset"></i>Thanks for your message! We'll get back to you soon.<span class="timestamp">${timestamp}</span>`;
+          chatbotMessages.appendChild(botMessage);
+          saveChatMessage('Thanks for your message! We\'ll get back to you soon.', 'admin');
+          chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        }, 600);
+      }
+    });
+
+    chatbotInput.addEventListener('keypress', e => {
+      if (e.key === 'Enter') {
+        chatbotSend.click();
+      }
+    });
+
+    // Smooth Scroll with requestAnimationFrame
+    document.addEventListener('click', e => {
+      const anchor = e.target.closest('a[href^="#"]');
+      if (anchor) {
+        e.preventDefault();
+        const target = document.querySelector(anchor.getAttribute('href'));
+        if (target) {
+          const start = window.scrollY;
+          const end = target.getBoundingClientRect().top + window.scrollY;
+          const duration = 500;
+          let startTime = null;
+
+          const scroll = timestamp => {
+            if (!startTime) startTime = timestamp;
+            const progress = (timestamp - startTime) / duration;
+            if (progress < 1) {
+              window.scrollTo(0, start + (end - start) * Math.min(progress, 1));
+              requestAnimationFrame(scroll);
+            } else {
+              window.scrollTo(0, end);
+            }
+          };
+          requestAnimationFrame(scroll);
+        }
+      }
+    });
+  </script>
+</body>
+</html>
